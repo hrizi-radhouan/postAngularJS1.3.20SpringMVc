@@ -42,9 +42,9 @@ public class HomeController {
 	@RequestMapping(value = "/display", method = RequestMethod.POST)
 
 	public @ResponseBody String addSelectedVariable(@RequestBody String name) {
-		String returnText ="done";
-		System.out.println("done");
-		JSONObject jsonObj = new JSONObject("{\"name\":\"hrizi\"}");
+		
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("name", name);
 		return jsonObj.toString();
 	}
 	

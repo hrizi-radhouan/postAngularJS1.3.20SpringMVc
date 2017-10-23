@@ -4,7 +4,7 @@
 <head>
 <title>Home</title>
 <script
-	src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.20/angular.min.js"></script>
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
@@ -12,10 +12,7 @@
 	<h1>Hello world!</h1>
 	<script type="text/javascript">
 		var app = angular.module("app", []);
-		app
-				.controller(
-						"HttpGetController",
-						function($scope, $http) {
+		app.controller("HttpGetController",function($scope, $http) {
 
 							$scope.send = function() {
 								// use $.param jQuery function to serialize data from JSON 
@@ -31,28 +28,23 @@
 									}
 								}
 
-								$http
-										.post('/mvc/display', data, config)
-										.success(
-												function(data, status, headers,
-														config) {
-													$scope.PostDataResponse = data.name;
-													alert("Hola "+data.name);
-												})
-										.error(
-												function(data, status, header,
-														config) {
-													$scope.ResponseDetails = "Data: "
-															+ data
-															+ "<hr />status: "
-															+ status
-															+ "<hr />headers: "
-															+ header
-															+ "<hr />config: "
-															+ config;
-												});
+								$http.post('/mvc/display', data, config).then(function(response){
+									         // success callback
+									    	   $scope.PostDataResponse = response.data.name;
+												alert("Hola " + response.data.name);
+									       }, 
+									       function(response){
+									         // failure callback
+									    	   $scope.ResponseDetails = "Data: "
+													+ response.data
+													+ "<hr />status: "
+													+ response.status
+													+ "<hr />headers: "
+													+ response.header
+													+ "<hr />config: "
+													+ response.config;
+									       })
 							};
-
 						});
 	</script>
 
@@ -64,7 +56,7 @@
 	</br>
 	<input type="button" ng-click="send()" value="Send" />
 
-	<label>{{ PostDataResponse }}</label>
+	<label>{{ PostDataResponse}}</label>
 
 </body>
 </html>
